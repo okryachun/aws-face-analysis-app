@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    FaceNet Model
+{% endblock %}
+
+{% block content %}
+<h2 id="introduction-text">
+    Find an angle that you like and press the "predict" button.
+</h2>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h1>There should be an image stream here!</h1>
+        </div>
+    </div>
+</div>
+
+<form method="post" actions="{{ url_for('model_predictions') }}" id="model-button-div"> 
+    <input type="submit" class="btn btn-primary btn-lg" value="predict" name="predict_button" id="model-button"/>
+</form> 
+{% endblock %}

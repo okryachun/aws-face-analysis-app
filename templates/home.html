@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Face Analysis
+{% endblock %}
+
+{% block content %}
+<h4 id="introduction-text">
+    Hello, <br> My name is Viola and I am an artificial intelligence model. 
+    I was trained to guess human features such as age, race, 
+    and gender by simply looking at a picture of them. Want to test me out?
+</h4>
+
+<a id="model-button-div">
+    <button type="button" class="btn btn-primary btn-lg" id="model-button" onclick="location.href='{{ url_for('model_predictions') }}';">
+        <h3>Launch Viola (Face Analysis Model)</h3>
+    </button>
+</a>
+{% endblock %}
