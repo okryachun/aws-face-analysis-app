@@ -1,14 +1,14 @@
 from flask import Flask, Response, app, render_template, request
-#import cv2
+import cv2
 import sys
 
 # local imports
 #import static.run_model as run_model
-#from static.camera import VideoCamera
+from static.camera import VideoCamera
 
 application = Flask(__name__)
 
-#video_stream = VideoCamera()
+video_stream = VideoCamera()
 #model = run_model.get_model('static/saved_model')
 
 #predict_img = False
@@ -20,43 +20,43 @@ def home_page():
     return render_template('home.html')
 
 
-# def gen(camera):
-#     """Image frame generating function, loops continuously capturing and displaying images.
+def gen(camera):
+    """Image frame generating function, loops continuously capturing and displaying images.
 
-#         Other functions:
-#             - Reads 'predict_img' variable, when true -> send frame for prediction -> reset 'predict_img'
-#             - Display prediction results on cv2 frame
+        Other functions:
+            - Reads 'predict_img' variable, when true -> send frame for prediction -> reset 'predict_img'
+            - Display prediction results on cv2 frame
             
-#     Parameters:
-#     -----------
-#         camera (cv2.VideoCapture): cv2 camera instance stream
-#     Yield:
-#     ------
-#         jpeg_bytes (bytes): jpeg image converted to bytes and formatted as 'Content-Type: image/jpeg'
-#     """
-#     global predict_img, predictions
+    Parameters:
+    -----------
+        camera (cv2.VideoCapture): cv2 camera instance stream
+    Yield:
+    ------
+        jpeg_bytes (bytes): jpeg image converted to bytes and formatted as 'Content-Type: image/jpeg'
+    """
+    global predict_img, predictions
 
-#     while True:
-#         frame = camera.get_frame()
+    while True:
+        frame = camera.get_frame()
         
-#         if predict_img:
-#             predictions = run_model_prediction(frame)
-#             predict_img = False
+        # if predict_img:
+        #     predictions = run_model_prediction(frame)
+        #     predict_img = False
 
-#         put_text = run_model.optimize_text(predictions, frame)
-#         cv2.putText(**put_text)
-#         _, jpeg = cv2.imencode('.jpg', frame)
-#         jpeg_bytes = jpeg.tobytes()
+        # put_text = run_model.optimize_text(predictions, frame)
+        # cv2.putText(**put_text)
+        _, jpeg = cv2.imencode('.jpg', frame)
+        jpeg_bytes = jpeg.tobytes()
 
-#         yield (b'--frame\r\n'
-#             b'Content-Type: image/jpeg\r\n\r\n' + jpeg_bytes + b'\r\n\r\n')
+        yield (b'--frame\r\n'
+            b'Content-Type: image/jpeg\r\n\r\n' + jpeg_bytes + b'\r\n\r\n')
 
 
-# @application.route('/video_feed')
-# def video_feed():
-#     """Send Response of video generator stream"""
-#     return Response(gen(video_stream),
-#                 mimetype='multipart/x-mixed-replace; boundary=frame')
+@application.route('/video_feed')
+def video_feed():
+    """Send Response of video generator stream"""
+    return Response(gen(video_stream),
+                mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @application.route('/model_predictions', methods=['GET', 'POST'])
