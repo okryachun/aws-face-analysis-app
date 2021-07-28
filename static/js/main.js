@@ -7,25 +7,24 @@ $(document).ready(function() {
 
     var localMediaStream = null;
 
-    // var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-    var socket = io.connect('http://127.0.0.1:5000');
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+    //var socket = io();
+
+    socket.on('connect', function() {
+        console.log('Connected!');
+        console.log(socket.nsp)
+        socket.emit('message', {foo:'I have joined your server!!'})
+    });
 
     predict_button.addEventListener("click", function() {
-        console.log("The predict button was pressed!");
         if (!localMediaStream) {
             return;
         }
 
         ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, 300, 150);
 
-         let dataURL = canvas.toDataURL('image/jpeg');
-         console.log(dataURL)
-         //socket.emit('input image', dataURL);
-    });
-
-    socket.on('connect', function() {
-        console.log('Connected!');
-        // socket.send('ping', {foo:'bar'})
+        let dataURL = canvas.toDataURL('image/jpeg');
+        socket.emit('input image', dataURL);
     });
 
     var constraints = {
