@@ -7,8 +7,8 @@ $(document).ready(function() {
 
     var localMediaStream = null;
 
-    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
-    //var socket = io();
+    //var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+    var socket = io();
 
     socket.on('connect', function() {
         console.log('Connected!');
@@ -24,7 +24,7 @@ $(document).ready(function() {
         ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, 300, 150);
 
         let dataURL = canvas.toDataURL('image/jpeg');
-        socket.emit('input image', dataURL);
+        // socket.emit('input image', dataURL);
     });
 
     var constraints = {
