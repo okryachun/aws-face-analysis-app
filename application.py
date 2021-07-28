@@ -1,6 +1,6 @@
 import logging
 from flask import Flask, Response, render_template, request
-from flask_socketio import SocketIO, emit
+# from flask_socketio import SocketIO, emit
 # import cv2
 import sys
 # import numpy as np
@@ -12,7 +12,7 @@ import sys
 application = Flask(__name__)
 application.config['DEBUG'] = True
 application.config['SECRET_KEY'] = "\xd9\xf9\xc6\xcd\x85\x0f\xa0\x92\x82\x1d\xce\x06\xa2\xddO\x1b0B\xbf\t6\x90s"
-socketio = SocketIO(application)
+# socketio = SocketIO(application)
 
 # model = run_model.get_model('static/saved_model')
 
@@ -31,13 +31,13 @@ socketio = SocketIO(application)
     #emit("stats", {'prediction', 'complete'})
 
 
-@socketio.on('connect', namespace='/')
-def test_connect():
-    print("client connected: ", file=sys.stderr, flush=True)
+# @socketio.on('connect', namespace='/')
+# def test_connect():
+#     print("client connected: ", file=sys.stderr, flush=True)
 
-@socketio.on('message', namespace='/')
-def test_connect():
-    print("client connected: ", file=sys.stderr, flush=True)
+# @socketio.on('message', namespace='/')
+# def test_connect():
+#     print("client connected: ", file=sys.stderr, flush=True)
 
 @application.route('/')
 def home_page():
@@ -45,22 +45,9 @@ def home_page():
     return render_template('home.html')
 
 
-@application.route('/model_predictions', methods=['GET', 'POST'])
+@application.route('/model_predictions')
 def model_predictions():
-    """Listen for prediction requests, set global 'predict_img' to True when detected.
-
-    Returns:
-    --------
-        render_template('model.html'): send model.html page
-    """
-    global predict_img
-    if request.method == 'POST':
-        if request.form.get('predict_button') == 'predict':
-            predict_img = True
-
-    elif request.method == 'GET':
-        return render_template('model.html')
-            
+    """Render model html page"""
     return render_template('model.html')
 
 
@@ -89,4 +76,5 @@ def model_predictions():
 #     return text
 
 if __name__ == "__main__":
-    socketio.run(application)
+    application.run()
+    # socketio.run(application)

@@ -8,13 +8,13 @@ $(document).ready(function() {
     var localMediaStream = null;
 
     //var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
-    var socket = io();
+    //var socket = io();
 
-    socket.on('connect', function() {
-        console.log('Connected!');
-        console.log(socket.nsp)
-        socket.emit('message', {foo:'I have joined your server!!'})
-    });
+    // socket.on('connect', function() {
+    //     console.log('Connected!');
+    //     console.log(socket.nsp)
+    //     socket.emit('message', {foo:'I have joined your server!!'})
+    // });
 
     predict_button.addEventListener("click", function() {
         if (!localMediaStream) {
