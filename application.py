@@ -1,5 +1,6 @@
 from flask import Flask, Response, render_template, request
-# from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit
+import sys
 # import cv2
 # import numpy as np
 # import base64
@@ -10,7 +11,7 @@ from flask import Flask, Response, render_template, request
 application = Flask(__name__)
 application.config['DEBUG'] = True
 application.config['SECRET_KEY'] = "\xd9\xf9\xc6\xcd\x85\x0f\xa0\x92\x82\x1d\xce\x06\xa2\xddO\x1b0B\xbf\t6\x90s"
-# socketio = SocketIO(application)
+socketio = SocketIO(application)
 
 # model = run_model.get_model('static/saved_model')
 
@@ -29,13 +30,13 @@ application.config['SECRET_KEY'] = "\xd9\xf9\xc6\xcd\x85\x0f\xa0\x92\x82\x1d\xce
     #emit("stats", {'prediction', 'complete'})
 
 
-# @socketio.on('connect', namespace='/')
-# def test_connect():
-#     print("client connected: ", file=sys.stderr, flush=True)
+@socketio.on('connect', namespace='/')
+def test_connect():
+    print("client connected: ", file=sys.stderr, flush=True)
 
-# @socketio.on('message', namespace='/')
-# def test_connect():
-#     print("client connected: ", file=sys.stderr, flush=True)
+@socketio.on('message', namespace='/')
+def test_connect():
+    print("client connected: ", file=sys.stderr, flush=True)
 
 @application.route('/')
 def home_page():
@@ -74,5 +75,4 @@ def model_predictions():
 #     return text
 
 if __name__ == "__main__":
-    application.run()
-    # socketio.run(application)
+    socketio.run(application)
