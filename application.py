@@ -1,8 +1,6 @@
-import logging
 from flask import Flask, Response, render_template, request
 # from flask_socketio import SocketIO, emit
 # import cv2
-import sys
 # import numpy as np
 # import base64
 
