@@ -7,14 +7,19 @@ $(document).ready(function() {
 
     var localMediaStream = null;
 
-    //var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
     var socket = io();
 
     socket.on('connect', function() {
         console.log('Connected!');
-        console.log(socket.nsp)
-        socket.emit('message', {foo:'I have joined your server!!'})
     });
+
+    socket.on('predictions', function(data) {
+        $("#age").val(data["Age"]);
+        $("#gender").val(data["Gender"]);
+        $("#race").val(data["Race"])
+        console.log(data);
+    });
+
 
     predict_button.addEventListener("click", function() {
         if (!localMediaStream) {
@@ -24,7 +29,7 @@ $(document).ready(function() {
         ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, 300, 150);
 
         let dataURL = canvas.toDataURL('image/jpeg');
-        // socket.emit('input image', dataURL);
+        socket.emit('frame capture', dataURL);
     });
 
     var constraints = {

@@ -12,10 +12,26 @@
 
 {% block content %}
 
-<h2 id="introduction-text">
+<h4 id="introduction-text">
     Find an angle that you like and press the "predict" button.
-</h2>
+</h4>
 
+<div class="container" id="pred-container">
+    <div class="row justify-content-center" id="pred-row">
+        <div class="col">
+            <label>Age</label>
+            <input type="text" class="form-control" id="age" placeholder="Age" disabled>
+        </div>
+        <div class="col">
+            <label>Race</label>
+            <input type="text" class="form-control" id="race" placeholder="Race" disabled>
+        </div>
+        <div class="col">
+            <label>Gender</label>
+            <input type="text" class="form-control" id="gender" placeholder="Gender" disabled>
+        </div>
+    </div>
+</div>
 
 <div class="container" id="stream-container">
     <video autoplay="true" id="video-box"></video>
