@@ -4,21 +4,25 @@
     FaceNet Model
 {% endblock %}
 
+{% block script %}
+<script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.1/socket.io.js" defer></script>
+
+{% endblock %}
+
 {% block content %}
+
 <h2 id="introduction-text">
     Find an angle that you like and press the "predict" button.
 </h2>
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8  offset-lg-2">
-            <img src="{{ url_for('video_feed') }}" width="100%">
-        </div>
-    </div>
+<div class="container" id="stream-container">
+    <video autoplay="true" id="video-box"></video>
+    <canvas id="canvas-box">
 </div>
 
-<form method="post" actions="{{ url_for('model_predictions') }}" id="model-button-div"> 
-    <input type="submit" class="btn btn-primary btn-lg" value="predict" name="predict_button" id="model-button"/>
-</form> 
+<div id="model-button-div">
+    <button type="button" class="btn btn-primary btn-lg" id="model-button"><h3>predict</h3></button>
+</div>
 {% endblock %}

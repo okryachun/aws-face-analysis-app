@@ -1,62 +1,54 @@
-from flask import Flask, Response, app, render_template, request
+import logging
+from flask import Flask, Response, render_template, request
+from flask_socketio import SocketIO
+import logging
 import cv2
 import sys
+import numpy as np
+import base64
 
 # local imports
 #import static.run_model as run_model
-from static.camera import VideoCamera
 
 application = Flask(__name__)
+application.config['DEBUG'] = True
+application.logger.addHandler(logging.StreamHandler(sys.stdout))
+socketio = SocketIO(application)
 
-video_stream = VideoCamera()
 #model = run_model.get_model('static/saved_model')
+
+
 
 #predict_img = False
 #predictions = ""
 
+# @socketio.on('input image', namespace='/test')
+# def test_message(input):
+#     print("just recieved an image!!!", file=sys.stderr, flush=True)
+#     encoded_img = input.split(",")[1]
+#     try:
+#         nparr = np.fromstring(base64.b64decode(encoded_img), np.uint8)
+#         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+#         cv2.imshow("", img)
+#         cv2.waitKey(3000)
+#     except:
+#         print("couln't decode images!", file=sys.stderr, flush=True)
+
+
+@socketio.on('connect')
+def test_connect():
+    print("client connected: ", file=sys.stderr, flush=True)
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print("client disconnect...", file=sys.stderr, flush=True)
+
+
 @application.route('/')
 def home_page():
     """Render home html page"""
+    print("This should 100% print", file=sys.stderr, flush=True)
     return render_template('home.html')
-
-
-def gen(camera):
-    """Image frame generating function, loops continuously capturing and displaying images.
-
-        Other functions:
-            - Reads 'predict_img' variable, when true -> send frame for prediction -> reset 'predict_img'
-            - Display prediction results on cv2 frame
-            
-    Parameters:
-    -----------
-        camera (cv2.VideoCapture): cv2 camera instance stream
-    Yield:
-    ------
-        jpeg_bytes (bytes): jpeg image converted to bytes and formatted as 'Content-Type: image/jpeg'
-    """
-    global predict_img, predictions
-
-    while True:
-        frame = camera.get_frame()
-        
-        # if predict_img:
-        #     predictions = run_model_prediction(frame)
-        #     predict_img = False
-
-        # put_text = run_model.optimize_text(predictions, frame)
-        # cv2.putText(**put_text)
-        _, jpeg = cv2.imencode('.jpg', frame)
-        jpeg_bytes = jpeg.tobytes()
-
-        yield (b'--frame\r\n'
-            b'Content-Type: image/jpeg\r\n\r\n' + jpeg_bytes + b'\r\n\r\n')
-
-
-@application.route('/video_feed')
-def video_feed():
-    """Send Response of video generator stream"""
-    return Response(gen(video_stream),
-                mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @application.route('/model_predictions', methods=['GET', 'POST'])
@@ -104,5 +96,4 @@ def model_predictions():
 #     return text
 
 if __name__ == "__main__":
-    application.debug = True
-    application.run()
+    socketio.run(application)
