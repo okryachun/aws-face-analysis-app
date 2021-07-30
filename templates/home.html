@@ -11,9 +11,11 @@
     and gender by simply looking at a picture of them. Want to test me out?
 </h4>
 
-<a id="model-button-div">
-    <button type="button" class="btn btn-primary btn-lg" id="model-button" onclick="location.href='{{ url_for('model_predictions') }}';">
-        <h3>Launch Viola (Face Analysis Model)</h3>
-    </button>
-</a>
+<div class="container" id="launch-container">
+    <div id="launch-button-div">
+        <button type="button" class="btn btn-primary btn-lg" id="launch-button" onclick="location.href='{{ url_for('model_predictions') }}';">
+            <h3>Launch Viola (Face Analysis Model)</h3>
+        </button>
+    </div>
+</div>
 {% endblock %}
