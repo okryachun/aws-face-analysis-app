@@ -7,6 +7,8 @@ import cv2
 
 # local imports
 import static.run_model as run_model
+
+
 application = Flask(__name__)
 application.config['DEBUG'] = True
 application.config['SECRET_KEY'] = "\xd9\xf9\xc6\xcd\x85\x0f\xa0\x92\x82\x1d\xce\x06\xa2\xddO\x1b0B\xbf\t6\x90s"
