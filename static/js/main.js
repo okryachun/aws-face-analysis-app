@@ -3,9 +3,7 @@ $(document).ready(function() {
     let canvas = document.querySelector("#canvas-box");
     let predict_button = document.querySelector("#model-button");
     let ctx = canvas.getContext('2d');
-
     var localMediaStream = null;
-    // Connect to server socket
     var socket = io();
 
     socket.on('connect', function() {
@@ -17,9 +15,12 @@ $(document).ready(function() {
         if (!localMediaStream) {
             return;
         }
-        console.log(video.videoWidth)
-        console.log( video.videoHeight)
-        ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, 300, 150);
+        if (canvas.height !== video.videoHeight) {
+            canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth;
+        }
+
+        ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
         let dataURL = canvas.toDataURL('image/jpeg');
         socket.emit('process frame', dataURL);
@@ -40,8 +41,8 @@ $(document).ready(function() {
 
     var constraints = {
         video: {
-            width: { min: 640 },
-            height: { min: 480 }
+            width: { min: 400 }, 
+            height: { min: 300 }
         }
     };
 
