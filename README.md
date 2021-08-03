@@ -4,7 +4,7 @@ A Flask web application structured to deploy on an AWS Elastic Beanstalk Server.
 
 This is a very simple application designed to easily showcase the trained neural network model trained [here](https://github.com/okryachun/Tensorflow-Face-Analysis). If you are interested in a more detailed description on how the convolutional neural network model works or was trained, visit the links above.
 
-To run this web application go to this link: facepredictions.com
+To run this web application go to this link: <https://facepredictions.com>
 
 <br>
 
